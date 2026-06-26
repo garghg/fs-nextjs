@@ -42,7 +42,7 @@ export const getBlogs = () => {
   return blogs.toSorted((a, b) => b.likes - a.likes)
 }
 
-export const addBlog = async (title: string, author: string, url: string) => {
+export const addBlog = (title: string, author: string, url: string) => {
   const newBlog = {
     id: nextId++,
     title,
@@ -53,12 +53,12 @@ export const addBlog = async (title: string, author: string, url: string) => {
   blogs.push(newBlog)
 }
 
-export const getBlogbyId = async (id: number) => {
+export const getBlogbyId = (id: number) => {
   const blog = blogs.find(b => b.id === id)
   return blog
 }
 
-export const addLike = async (id: number) => {
+export const addLike = (id: number) => {
   const blog = blogs.find(b => b.id === id)
   if (blog) {
     blog.likes += 1

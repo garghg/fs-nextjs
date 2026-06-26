@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 
 const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params
-    const blog = await getBlogbyId(Number(id))
+    const blog = getBlogbyId(Number(id))
 
     if (!blog) {
         notFound()
