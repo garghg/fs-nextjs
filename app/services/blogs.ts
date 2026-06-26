@@ -36,7 +36,19 @@ const blogs = [
   },
 ]
 
+let nextId = 6
 
 export const getBlogs = () => {
-    return blogs;
+  return blogs
+}
+
+export const addBlog = async (title: string, author: string, url: string) => {
+  const newBlog = {
+    id: nextId++,
+    title,
+    author,
+    url,
+    likes: 0,
+  }
+  blogs.push(newBlog)
 }
