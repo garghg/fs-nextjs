@@ -1,66 +1,38 @@
-const blogs = [
-  {
-    id: 1,
-    title: 'Understanding Sequelize Migrations',
-    author: 'Bruce Wayne',
-    url: 'https://example.com/sequelize-migrations',
-    likes: 12,
-  },
-  {
-    id: 2,
-    title: 'Docker Compose in Practice',
-    author: 'Jane Doe',
-    url: 'https://example.com/docker-compose',
-    likes: 7,
-  },
-  {
-    id: 3,
-    title: 'GraphQL vs REST',
-    author: 'Bob Smith',
-    url: 'https://example.com/graphql-vs-rest',
-    likes: 23,
-  },
-  {
-    id: 4,
-    title: 'TypeScript Tips',
-    author: 'Jane Doe',
-    url: 'https://example.com/ts-tips',
-    likes: 5,
-  },
-  {
-    id: 5,
-    title: 'CI/CD with GitHub Actions',
-    author: 'Clark Kent',
-    url: 'https://example.com/ci-cd',
-    likes: 15,
-  },
-]
+import { eq, ilike } from 'drizzle-orm'
+import { db } from '../../db/index'
+import { blogs } from '../../db/schema'
 
-let nextId = 6
+export const getBlogs = async (filter?: string) => {
+  const result = filter
+    ? await db.query.blogs.findMany({
+        where: ilike(blogs.title, `%${filter}%`),
+      })
+    : await db.query.blogs.findMany()
 
-export const getBlogs = () => {
-  return blogs.toSorted((a, b) => b.likes - a.likes)
+  return result.toSorted((a, b) => b.likes - a.likes)
 }
 
-export const addBlog = (title: string, author: string, url: string) => {
+export const addBlog = async (title: string, author: string, url: string) => {
   const newBlog = {
-    id: nextId++,
     title,
     author,
     url,
-    likes: 0,
   }
-  blogs.push(newBlog)
+  await db.insert(blogs).values(newBlog)
 }
 
-export const getBlogbyId = (id: number) => {
-  const blog = blogs.find(b => b.id === id)
-  return blog
+export const getBlogById = async (id: number) => {
+  return db.query.blogs.findFirst({
+    where: eq(blogs.id, id),
+  })
 }
 
-export const addLike = (id: number) => {
-  const blog = blogs.find(b => b.id === id)
+export const addLike = async (id: number) => {
+  const blog = await getBlogById(id)
   if (blog) {
-    blog.likes += 1
+    await db
+      .update(blogs)
+      .set({ likes: blog.likes + 1 })
+      .where(eq(blogs.id, id))
   }
 }

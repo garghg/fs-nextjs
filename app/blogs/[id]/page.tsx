@@ -1,10 +1,10 @@
 import { likeBlog } from "@/app/actions/blogs"
-import { getBlogbyId } from "@/app/services/blogs"
+import { getBlogById } from "../../services/blogs"
 import { notFound } from "next/navigation"
 
 const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params
-    const blog = getBlogbyId(Number(id))
+    const blog = await getBlogById(Number(id))
 
     if (!blog) {
         notFound()
