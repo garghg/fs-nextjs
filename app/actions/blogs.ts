@@ -8,6 +8,7 @@ import { auth } from '../auth'
 export type BlogFormState = {
   error: string
   values?: { title: string; author: string; url: string }
+  success?: boolean
 }
 
 export const createBlog = async (
@@ -38,13 +39,14 @@ export const createBlog = async (
         title,
         author,
         url
-      }
+      },
+      success: false,
      }
   }
 
   await addBlog(title, author, url)
   revalidatePath('/blogs')
-  redirect('/blogs')
+  return { error: '', success: true }
 }
 
 export const likeBlog = async (formData: FormData) => {
