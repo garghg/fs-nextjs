@@ -10,17 +10,31 @@ const Blogs = async ({
   const blogs = await getBlogs(filter)
 
   return (
-    <div>
-      <h2>Blogs</h2>
-      <form>
-        <input type="text" name="filter" defaultValue={filter} />
-        <button type="submit">Search</button>
+    <div className="mx-auto max-w-2xl p-6">
+      <h2 className="mb-4 text-2xl font-bold">Blogs</h2>
+      <form className="mb-4 flex gap-2">
+        <input
+          type="text"
+          name="filter"
+          defaultValue={filter}
+          placeholder="Search blogs..."
+          className="rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button type="submit" className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+          Search
+        </button>
       </form>
-      {filter && <Link href="/blogs">Clear filter</Link>}
-      <ul>
+      {filter && (
+        <Link href="/blogs" className="mb-4 inline-block text-sm text-blue-600 hover:underline">
+          Clear filter
+        </Link>
+      )}
+      <ul className="space-y-2">
         {blogs.map((b) => (
           <li key={b.id}>
-            <Link href={`/blogs/${b.id}`}>{b.title}</Link>
+            <Link href={`/blogs/${b.id}`} className="text-blue-600 hover:underline">
+              {b.title}
+            </Link>
           </li>
         ))}
       </ul>
