@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
@@ -19,10 +19,14 @@ export default function NavBar() {
           <Link href="/blogs/new">add blog</Link>
           {' | '}
           <em>{session.user?.name} logged In</em>
-          <button onClick={() => signOut()} >logout</button>
+          <button onClick={() => signOut()}>logout</button>
         </>
       ) : (
-        <Link href="/login">login</Link>
+        <>
+          <Link href="/login">login</Link>
+          {' | '}
+          <Link href="/register">register</Link>
+        </>
       )}
     </nav>
   )
