@@ -5,8 +5,13 @@ import { revalidatePath } from 'next/cache'
 import { addBlog, addLike } from '../services/blogs'
 import { auth } from '../auth'
 
+export type BlogFormState = {
+  error: string
+  values?: { title: string; author: string; url: string }
+}
+
 export const createBlog = async (
-  prevState: { error: string },
+  prevState: BlogFormState,
   formData: FormData,
 ) => {
   const session = await auth()
@@ -28,7 +33,13 @@ export const createBlog = async (
       url.length > 4
     )
   ) {
-    return { error: 'Title, Author, URL mist be at least 5 characters long' }
+    return { error: 'Title, Author, URL mist be at least 5 characters long',
+      values: {
+        title,
+        author,
+        url
+      }
+     }
   }
 
   await addBlog(title, author, url)
