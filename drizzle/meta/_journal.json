@@ -15,6 +15,13 @@
       "when": 1782592920606,
       "tag": "0001_secret_komodo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782667226416,
+      "tag": "0002_legal_nico_minoru",
+      "breakpoints": true
     }
   ]
 }
