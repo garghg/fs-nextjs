@@ -1,7 +1,9 @@
+import Homepage from "./homepage.mdx"
+
 const Home = () => {
   return (
-    <div>
-      <h1>Blogs App</h1>
+    <div className="markdown">
+      <Homepage />
     </div>
   )
 }
