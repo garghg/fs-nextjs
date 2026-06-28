@@ -1,7 +1,7 @@
 import { db } from '@/db'
 import { getCurrentUser } from './sessions'
 import { blogs, readingList } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 export const getUserToken = async () => {
   const user = await getCurrentUser()
@@ -9,13 +9,17 @@ export const getUserToken = async () => {
   return token
 }
 
-export const getReadingList = async () => {
+export const getReadingList = async (isRead?: boolean) => {
   const user = await getCurrentUser()
   const userId = Number(user?.id)
-  const userReadingList = db
+  const conditions = [eq(readingList.userId, userId)]
+  if (isRead !== undefined) {
+    conditions.push(eq(readingList.read, isRead))
+  }
+  const userReadingList = await db
     .select()
     .from(readingList)
     .innerJoin(blogs, eq(readingList.blogId, blogs.id))
-    .where(eq(readingList.userId, userId))
+    .where(and(...conditions))
   return userReadingList
 }
