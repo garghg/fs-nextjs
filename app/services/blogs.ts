@@ -1,6 +1,6 @@
 import { eq, ilike } from 'drizzle-orm'
 import { db } from '../../db/index'
-import { blogs } from '../../db/schema'
+import { blogs, readingList } from '../../db/schema'
 import { getCurrentUser } from './sessions'
 
 export const getBlogs = async (filter?: string) => {
@@ -22,9 +22,12 @@ export const addBlog = async (title: string, author: string, url: string) => {
     title,
     author,
     url,
-    userId: user.id
+    userId: user.id,
   }
-  await db.insert(blogs).values(newBlog)
+  const [addedBlog] = await db.insert(blogs).values(newBlog).returning()
+  await db
+    .insert(readingList)
+    .values({ blogId: addedBlog.id, userId: user.id, read: false })
 }
 
 export const getBlogById = async (id: number) => {

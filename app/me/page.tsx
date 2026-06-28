@@ -1,10 +1,11 @@
 import { generateNewToken } from "../actions/me"
-import { getUserToken } from "../services/me"
+import { getReadingList, getUserToken } from "../services/me"
 import { getCurrentUser } from "../services/sessions"
 
 const MePage = async () => {
   const session = await getCurrentUser()
   const token = await getUserToken()
+  const blogList = await getReadingList()
 
   if (!session) return <div>no user logged in</div>
 
@@ -20,6 +21,13 @@ const MePage = async () => {
           <button type="submit">Generate new Token</button>
         </form>
       </div>
+      <ul>
+        {blogList.map(b => (
+          <li key={b.blogs.id}>
+            {b.blogs.title}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
