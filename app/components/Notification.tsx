@@ -8,7 +8,11 @@ const Notification = () => {
   if (!message) return null
 
   return (
-    <div className={`px-4 py-2.5 mb-2.5 rounded text-white ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}>
+    <div
+      data-testid="notification"
+      className={`px-4 py-2.5 mb-2.5 rounded text-white ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}
+    >
+      {' '}
       {message}
     </div>
   )

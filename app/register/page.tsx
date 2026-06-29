@@ -10,11 +10,6 @@ export default function RegisterPage() {
   return (
     <div>
       <h2>Register</h2>
-      {state.error && (
-        <p style={{ color: 'red' }}>
-          <strong>{state.error}</strong>
-        </p>
-      )}
       <form action={formAction}>
         <div>
           <label>
@@ -27,6 +22,11 @@ export default function RegisterPage() {
             />
           </label>
         </div>
+        {state.fieldErrors?.username && (
+          <p data-testid="username-error" style={{ color: 'red' }}>
+            {state.fieldErrors.username}
+          </p>
+        )}
         <div>
           <label>
             Name
@@ -49,6 +49,11 @@ export default function RegisterPage() {
             />
           </label>
         </div>
+        {state.fieldErrors?.passwordConfirm && (
+          <p data-testid="passwordConfirm-error" style={{ color: 'red' }}>
+            {state.fieldErrors.passwordConfirm}
+          </p>
+        )}
         <div>
           <label>
             Confirm Password
@@ -60,7 +65,9 @@ export default function RegisterPage() {
             />
           </label>
         </div>
-        <button type="submit">Register</button>
+        <button data-testid="register-button" type="submit">
+          Register
+        </button>
       </form>
     </div>
   )

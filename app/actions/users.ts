@@ -7,12 +7,8 @@ import { redirect } from 'next/navigation'
 
 export type UserFormData = {
   error: string
-  values?: {
-    username: string
-    password: string
-    confirmPassword: string
-    name: string
-  }
+  values?: { username: string; password: string; confirmPassword: string; name: string }
+  fieldErrors?: { username?: string; passwordConfirm?: string }
 }
 
 export const registerUser = async (
@@ -31,25 +27,26 @@ export const registerUser = async (
     name,
   }
 
-  if (
-    !(
-      username &&
-      password &&
-      confirmPassword &&
-      name &&
-      username.length > 3 &&
-      password.length > 3
-    )
-  ) {
+  if (!username || !name || !password || !confirmPassword) {
+    return { error: 'All fields are required', values }
+  }
+
+  if (username.length < 4) {
     return {
-      error: 'Username and password must be at least 4 characters',
+      error: 'Username must be at least 4 characters',
+      fieldErrors: { username: 'Username must be at least 4 characters' },
       values,
     }
+  }
+
+  if (password.length < 4) {
+    return { error: 'Password must be at least 4 characters', values }
   }
 
   if (confirmPassword !== password) {
     return {
       error: 'Passwords did not match',
+      fieldErrors: { passwordConfirm: 'Passwords did not match' },
       values,
     }
   }

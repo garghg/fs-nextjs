@@ -15,9 +15,13 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <h2 className="mb-2 text-2xl font-bold">{blog.title}</h2>
-      <h3 className="mb-1 text-lg text-gray-600">{blog.author}</h3>
+    <div data-testid="blog-detail" className="mx-auto max-w-2xl p-6">
+      <h2 data-testid="blog-title" className="mb-2 text-2xl font-bold">
+        {blog.title}
+      </h2>
+      <h3 data-testid="blog-author" className="mb-1 text-lg text-gray-600">
+        {blog.author}
+      </h3>
       <a
         href={blog.url}
         className="mb-4 inline-block text-blue-600 hover:underline"
@@ -40,6 +44,7 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             <input type="hidden" name="blogId" value={blog.id} />
             <button
               type="submit"
+              data-testid="add-to-reading-list-button"
               className="rounded bg-green-700 px-3 py-1 text-sm text-white hover:bg-blue-700"
             >
               Add to my reading list

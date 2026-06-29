@@ -15,8 +15,8 @@ const NewBlog = () => {
 
   useEffect(() => {
     if (state.success) {
-      showNotification("Blog Created")
-      router.push("/blogs")
+      showNotification('Blog Created')
+      router.push('/blogs')
     }
   }, [state, showNotification, router])
 
@@ -24,7 +24,9 @@ const NewBlog = () => {
     <div className="mx-auto max-w-2xl p-6">
       <h2 className="mb-4 text-2xl font-bold">Post new blog</h2>
       {state.error && (
-        <p className="mb-4 rounded bg-red-100 px-4 py-2 text-red-700">{state.error}</p>
+        <p className="mb-4 rounded bg-red-100 px-4 py-2 text-red-700">
+          {state.error}
+        </p>
       )}
       <form action={formAction} className="space-y-4">
         <div>
@@ -63,8 +65,12 @@ const NewBlog = () => {
             />
           </label>
         </div>
-        <button type="submit" className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
-          Post
+        <button
+          type="submit"
+          data-testid="create-blog-button"
+          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        >
+          Create
         </button>
       </form>
     </div>
